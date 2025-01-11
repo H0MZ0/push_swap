@@ -6,20 +6,203 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:30:54 by hakader           #+#    #+#             */
-/*   Updated: 2025/01/11 17:16:36 by hakader          ###   ########.fr       */
+/*   Updated: 2025/01/11 22:06:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+// #include "push_swap.h"
 
-void	*swap(t_stack_node *top)
+ #include <stdio.h>
+ #include <stdlib.h>
+typedef	struct	t_stack
 {
-	t_stack_node *tmp;
-	if (!top || top->next == NULL)
-		return ;
-	tmp = top->next->content;
-	tmp->next = top;
-	top = top->next->next;
+	int					content;
+	struct t_stack	*next;
+}	t_stack;
+
+
+void	*ft_creat_stack(int data)
+{
+	t_stack *new_stack;
+
+	new_stack = (t_stack *)malloc(sizeof(t_stack));
+	if (!new_stack)
+		return(NULL);
+	new_stack->content = data;
+	new_stack->next = NULL;
+	return (new_stack);
 }
 
+int	push_stack(t_stack **stack, int data)
+{
+	t_stack *new_stack;
+
+	new_stack = ft_creat_stack(data);
+	if (!new_stack)
+		return (0);
+	new_stack->next = *stack;
+	*stack = new_stack;
+	return (1);
+}
+
+int stack_is_empty(t_stack *stack)
+{
+	if (!stack)
+		return (1);
+	return (0);
+}
+
+int ft_peek(t_stack *stack)
+{
+	int value;
+
+	value = stack->content;
+	return (value);
+}
+
+int	ft_pop(t_stack **stack)
+{
+	t_stack *tmp;
+	int top_value;
+
+	top_value = (*stack)->content;
+	tmp = *stack;
+	*stack = (*stack)->next;
+	free (tmp);
+	return (top_value);
+}
+
+void swap_ab(t_stack *stack)
+{
+	int tmp;
+
+	if (!stack || !stack->next)
+		return ;
+	tmp = stack->content;
+	stack->content = stack->next->content;
+	stack->next->content = tmp;
+}
+
+void ft_rotate_ab(t_stack **stack)
+{
+	t_stack *last;
+
+	last = *stack;
+	if (stack_is_empty(*stack))
+		return ;
+	while (last->next)
+		last = last->next;
+	last->next = (*stack);
+	*stack = (*stack)->next;
+	last->next->next = NULL;
+}
+
+void ft_rev_rotate_ab(t_stack **stack)
+{
+	t_stack *before_last;
+	t_stack *last;
+
+	if (stack_is_empty(*stack))
+		return ;
+	before_last = *stack;
+	while (before_last->next->next != NULL)
+		before_last = before_last->next;
+	last = before_last->next;
+	last->next = *stack;
+	*stack = last;
+	before_last->next = NULL;
+}
+
+int	ft_atoi(const char *str)
+{
+	int		i;
+	int		sign;
+	long	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] && ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13)))
+	{
+		i++;
+	}
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - 48);
+		i++;
+	}
+	return (sign * result);
+}
+
+int	ft_isdigit(char *c)
+{
+	if (!c)
+		return (0);
+	if (*c == '-' || *c == '+')
+		c++;
+	while (*c)
+	{
+		if (!(*c >= '0' && *c <= '9'))
+			return(0);
+		c++;
+	}
+	return (1);
+}
+
+int ft_check_reapate(t_stack *stack, int value)
+{
+	while (stack)
+	{
+		if (stack->content == value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
+int	fill_stack(t_stack **stack, int ac, char **av)
+{
+	ac -= 1;
+	int value;
+
+	while (ac > 0)
+	{
+		if (ft_isdigit(av[ac]) == 0)
+			return (0);
+		value = ft_atoi(av[ac]);
+		if (ft_check_reapate(*stack, value) == 0)
+			return (0);
+		if (push_stack(stack, value) == 0)
+			return (0);
+		ac--;
+	}
+	return (1);
+}
+
+void ft_printstack(t_stack *stack)
+{
+	if (stack == NULL)
+		return ;
+	printf("%d\n", stack->content);
+	ft_printstack(stack->next);
+}
+
+int main (int ac, char **av)
+{
+	t_stack *stack;
+	stack = NULL;
+ 
+ 	if (fill_stack(&stack, ac, av)== 0)
+		return (1);
+	ft_printstack(stack);
+	ft_rev_rotate_ab(&stack);
+	printf("\n");
+	ft_printstack(stack);
+}
 

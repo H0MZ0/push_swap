@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:47:37 by hakader           #+#    #+#             */
-/*   Updated: 2025/01/11 16:52:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/01/11 18:01:45 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@
 # include <stdlib.h>
 // # include <stdio.h>
 
-typedef	struct	t_stack_node
+typedef	struct	t_stack
 {
 	int					content;
 	struct t_stack_node	*next;
-}	t_stack_node;
-
-typedef	struct	s_stack
-{
-	t_stack_node	*top;
-}	s_stack;
-
+}	t_stack;
 
 #endif
