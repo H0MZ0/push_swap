@@ -6,20 +6,11 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:30:54 by hakader           #+#    #+#             */
-/*   Updated: 2025/01/11 22:06:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/01/15 11:50:56 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "push_swap.h"
-
- #include <stdio.h>
- #include <stdlib.h>
-typedef	struct	t_stack
-{
-	int					content;
-	struct t_stack	*next;
-}	t_stack;
-
+#include "push_swap.h"
 
 void	*ft_creat_stack(int data)
 {
@@ -43,13 +34,6 @@ int	push_stack(t_stack **stack, int data)
 	new_stack->next = *stack;
 	*stack = new_stack;
 	return (1);
-}
-
-int stack_is_empty(t_stack *stack)
-{
-	if (!stack)
-		return (1);
-	return (0);
 }
 
 int ft_peek(t_stack *stack)
@@ -113,66 +97,22 @@ void ft_rev_rotate_ab(t_stack **stack)
 	before_last->next = NULL;
 }
 
-int	ft_atoi(const char *str)
-{
-	int		i;
-	int		sign;
-	long	result;
-
-	i = 0;
-	sign = 1;
-	result = 0;
-	while (str[i] && ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13)))
-	{
-		i++;
-	}
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		result = result * 10 + (str[i] - 48);
-		i++;
-	}
-	return (sign * result);
-}
-
-int	ft_isdigit(char *c)
-{
-	if (!c)
-		return (0);
-	if (*c == '-' || *c == '+')
-		c++;
-	while (*c)
-	{
-		if (!(*c >= '0' && *c <= '9'))
-			return(0);
-		c++;
-	}
-	return (1);
-}
-
-int ft_check_reapate(t_stack *stack, int value)
-{
-	while (stack)
-	{
-		if (stack->content == value)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
-
 int	fill_stack(t_stack **stack, int ac, char **av)
 {
 	ac -= 1;
 	int value;
+	int check;
+
 
 	while (ac > 0)
 	{
+		check = check_spaces(av[ac]);
+		if (check == -1)
+			return (0);
+		if (check == 1){
+			printf ("%s", "here");
+		}
+			// ft_split(av[ac], 32);
 		if (ft_isdigit(av[ac]) == 0)
 			return (0);
 		value = ft_atoi(av[ac]);
@@ -185,6 +125,8 @@ int	fill_stack(t_stack **stack, int ac, char **av)
 	return (1);
 }
 
+
+
 void ft_printstack(t_stack *stack)
 {
 	if (stack == NULL)
@@ -193,15 +135,23 @@ void ft_printstack(t_stack *stack)
 	ft_printstack(stack->next);
 }
 
+// char *ft_flter(char *av)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!av)
+// }
+
 int main (int ac, char **av)
 {
 	t_stack *stack;
 	stack = NULL;
  
  	if (fill_stack(&stack, ac, av)== 0)
-		return (1);
+		printf("%s", "Error");
 	ft_printstack(stack);
-	ft_rev_rotate_ab(&stack);
+	// ft_rev_rotate_ab(&stack);
 	printf("\n");
 	ft_printstack(stack);
 }
