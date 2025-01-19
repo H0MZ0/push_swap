@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:30:54 by hakader           #+#    #+#             */
-/*   Updated: 2025/01/16 09:38:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/01/17 12:06:09 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,6 @@ void ft_printstack(t_stack *stack)
 	printf("%d\n", stack->content);
 	ft_printstack(stack->next);
 }
-
-// char *ft_flter(char *av)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!av)
-// }
 
 int main (int ac, char **av)
 {
